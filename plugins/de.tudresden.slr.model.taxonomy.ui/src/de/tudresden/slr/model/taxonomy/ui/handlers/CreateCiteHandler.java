@@ -1,12 +1,25 @@
 package de.tudresden.slr.model.taxonomy.ui.handlers;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
+import org.eclipse.jetty.server.Request;
+import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IViewPart;
@@ -48,6 +61,7 @@ public class CreateCiteHandler implements IHandler {
 		if (selection == null || !(selection instanceof IStructuredSelection)) {
 			return null;
 		}
+		
 		IStructuredSelection currentSelection = (IStructuredSelection) selection;
 		IViewPart part = null;
 		try {
@@ -98,5 +112,6 @@ public class CreateCiteHandler implements IHandler {
 	public void removeHandlerListener(IHandlerListener handlerListener) {
 		// TODO Auto-generated method stub
 	}
+	
 }
 
