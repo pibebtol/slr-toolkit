@@ -7,6 +7,13 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.handler.DefaultHandler;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IViewPart;
@@ -48,6 +55,47 @@ public class CreatePieChartHandler implements IHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		// TODO: seems to be there is some refactoring needed in here
+		
+		//servertest
+		// start server on a new available port
+		Server server = new Server(0);
+
+        // Create the ResourceHandler. It is the object that will actually handle the request for a given file. It is
+        // a Jetty Handler object so it is suitable for chaining with other handlers as you will see in other examples.
+        ResourceHandler resource_handler = new ResourceHandler();
+
+
+        // Configure the ResourceHandler. Setting the resource base indicates where the files should be served out of.
+        // In this example it is the current directory but it can be configured to anything that the jvm has access to.
+        resource_handler.setDirectoriesListed(false);
+        resource_handler.setWelcomeFiles(new String[]{ "index.html" });
+        String location = Platform.getBundle("de.tudresden.slr.model.taxonomy.ui").getLocation().substring(15);
+        location = location.concat("html/");
+        System.out.println(location);
+        System.out.println("test");
+        resource_handler.setResourceBase(location);
+
+        // Add the ResourceHandler to the server.
+        HandlerList handlers = new HandlerList();
+        handlers.setHandlers(new Handler[] { resource_handler, new DefaultHandler() });
+        server.setHandler(handlers);
+
+        // Start things up! By using the server.join() the server thread will join with the current thread.
+        // See "http://docs.oracle.com/javase/1.5.0java jetty find out, if server is running already/docs/api/java/lang/Thread.html#join()" for more details.
+        try {
+			server.start();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        int port = ((ServerConnector)server.getConnectors()[0]).getLocalPort();
+        //String localhost = "http://localhost:" + port + "/";
+        // returns localhost uri of the server
+        String localhost = server.getURI().toString();
+        System.out.println(localhost);
+        //servertestende
+		
+		
 		ISelection selection = HandlerUtil.getCurrentSelectionChecked(event);
 		if (selection == null || !(selection instanceof IStructuredSelection)) {
 			return null;

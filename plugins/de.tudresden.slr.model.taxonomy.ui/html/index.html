@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<head>
+  <script src="vega.min.js"></script>
+  <title>test</title>
+</head>
+<body>
+    
+  <div id="view"></div>
+  <button onclick="exportSVG()">vega-export</button>
+  <button onclick="changeGraph()">change graph</button>
+  <script type="text/javascript">
+    var view;
+    const file_bar = './bar.vg.json';
+    const file_bubble = './bubble.vg.json';
+
+    var svg_url;
+
+    fetch(file_bar)
+      .then(res => res.json())
+      .then(spec => render(spec))
+      .catch(err => console.error(err));
+
+    function render(spec) {
+      view = new vega.View(vega.parse(spec), {
+        renderer:  'svg',  // renderer (canvas or svg)
+        container: '#view',   // parent DOM container
+        hover:     true       // enable hover processing
+      });
+      view.toImageURL('svg').then(function(url) {
+        svg_url = url;
+      }).catch(function(error) { /* error handling */ });
+      return view.runAsync();
+    }
+
+    function changeGraph() {
+      fetch(file_bubble)
+      .then(res => res.json())
+      .then(spec => render(spec))
+      .catch(err => console.error(err));
+    }
+
+    function exportSVG() {
+      var link = document.createElement("a");
+      link.setAttribute('href', svg_url);
+      link.setAttribute('target', '_blank');
+      link.setAttribute('download', 'vega-export.svg');
+      link.dispatchEvent(new MouseEvent('click'));
+    }
+  </script>
+</body>
