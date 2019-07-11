@@ -41,4 +41,4 @@ Export-Package: de.tudresden.slr.model.taxonomy.ui.contentassist,
  de.tudresden.slr.model.taxonomy.ui.dialog,
  de.tudresden.slr.model.taxonomy.ui.internal,
  de.tudresden.slr.model.taxonomy.ui.quickfix
-Bundle-Activator: de.tudresden.slr.model.taxonomy.ui.internal.TaxonomyActivator
+Bundle-Activator: de.tudresden.slr.model.taxonomy.ui.views.Activator

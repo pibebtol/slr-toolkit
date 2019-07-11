@@ -8,7 +8,7 @@
       {
         "name": "table",
         "format": { "type": "csv"},
-        "url": "data.csv" 
+        "url": "bar.data.csv" 
       }
     ],
   

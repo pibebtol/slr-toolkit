@@ -1,25 +1,13 @@
 package de.tudresden.slr.model.taxonomy.ui.handlers;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
-import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IViewPart;
@@ -29,29 +17,22 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import de.tudresden.slr.model.taxonomy.Term;
-import de.tudresden.slr.ui.chart.logic.BarChartGenerator;
+import de.tudresden.slr.ui.chart.logic.BubbleDataContainer;
 import de.tudresden.slr.ui.chart.logic.ChartDataProvider;
 import de.tudresden.slr.ui.chart.logic.ChartGenerator;
-import de.tudresden.slr.ui.chart.logic.TermSort;
-import de.tudresden.slr.ui.chart.settings.*;
+import de.tudresden.slr.ui.chart.settings.BubbleChartConfiguration;
 import de.tudresden.slr.ui.chart.views.ICommunicationView;
 
-public class CreateCiteHandler implements IHandler {
-
-	// TODO: find a better way to store these strings
+public class OpenBubbleChartHandler implements IHandler {
 
 	private final String chartViewId = "chart.view.chartview";
 	private ICommunicationView view;
-	private String noDataToDisplay = "Could not create a cite chart. \n Try to select a single Term.";
-
-	@Override
-	public void addHandlerListener(IHandlerListener handlerListener) {
-		// TODO Auto-generated method stub
-	}
+	private String noDataToDisplay = "Could not create a bubble chart. \n Try to select two Terms with subclasses.";
 
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
+
 	}
 
 	@Override
@@ -61,7 +42,6 @@ public class CreateCiteHandler implements IHandler {
 		if (selection == null || !(selection instanceof IStructuredSelection)) {
 			return null;
 		}
-		
 		IStructuredSelection currentSelection = (IStructuredSelection) selection;
 		IViewPart part = null;
 		try {
@@ -81,17 +61,18 @@ public class CreateCiteHandler implements IHandler {
 		} else {
 			return null;
 		}
-
 		view.getPreview().setTextToShow(noDataToDisplay);
-		if (currentSelection.size() == 1) {
+		if (currentSelection.size() == 2) {
 			view.getPreview().setDataPresent(true);
 			ChartDataProvider provider = new ChartDataProvider();
-			Term input = (Term) currentSelection.getFirstElement();
-			Map<String, Integer> citeChartData = provider.calculateNumberOfPapersPerClass(input);
-			BarChartConfiguration.get().getGeneralSettings().setChartTitle("Number of cites per subclass of " + input.getName());
-			BarChartConfiguration.get().setTermSort(TermSort.SUBCLASS);
-			Chart citeChart = ChartGenerator.createCiteBar(citeChartData);
-			view.setAndRenderChart(citeChart);
+			@SuppressWarnings("unchecked")
+			Iterator<Term> selectionIterator = currentSelection.iterator();
+			Term first = selectionIterator.next();
+			Term second = selectionIterator.next();
+			List<BubbleDataContainer> bubbleChartData = provider.calculateBubbleChartData(first, second);
+			BubbleChartConfiguration.get().getGeneralSettings().setChartTitle("Intersection of " + first.getName() + " and " + second.getName());
+			Chart bubbleChart = ChartGenerator.createBubble(bubbleChartData,first,second);
+			view.setAndRenderChart(bubbleChart);
 		} else {
 			view.setAndRenderChart(null);
 		}
@@ -100,18 +81,26 @@ public class CreateCiteHandler implements IHandler {
 
 	@Override
 	public boolean isEnabled() {
+		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isHandled() {
+		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public void removeHandlerListener(IHandlerListener handlerListener) {
 		// TODO Auto-generated method stub
-	}
-	
-}
 
+	}
+
+	@Override
+	public void addHandlerListener(IHandlerListener handlerListener) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
