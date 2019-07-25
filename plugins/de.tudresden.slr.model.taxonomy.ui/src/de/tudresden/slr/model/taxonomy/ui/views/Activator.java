@@ -145,7 +145,7 @@ public class Activator extends TaxonomyActivator {
 		InputStream in = getClass().getResourceAsStream("/html/bubble.vg.json");
     	BufferedReader br = new BufferedReader(new InputStreamReader(in));
 	    String st;
-	    File writeToFile = new File(Activator.WEB_APP_WORKSPACE + "/bubble.vg.jsone");
+	    File writeToFile = new File(Activator.WEB_APP_WORKSPACE + "/bubble.vg.json");
 	    PrintWriter writer = new PrintWriter(new FileWriter(writeToFile));
 	    while ((st = br.readLine()) != null) {
     		writer.println(st);

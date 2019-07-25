@@ -74,7 +74,7 @@ public class OpenBubbleChartHandler implements IHandler {
 			return false;
 		}
 		
-	    File writeToFile = new File(Activator.getWebAppWorkspace() + "/bar.data.csv");
+	    File writeToFile = new File(Activator.getWebAppWorkspace() + "/bubble.data.csv");
 	    PrintWriter writer = new PrintWriter(new FileWriter(writeToFile));
 	    writer.println("category1,category2,amount");
 	    for (BubbleDataContainer entry : selectionData) {
