@@ -78,7 +78,7 @@ public class OpenBubbleChartHandler implements IHandler {
 	    PrintWriter writer = new PrintWriter(new FileWriter(writeToFile));
 	    writer.println("category1,category2,amount");
 	    for (BubbleDataContainer entry : selectionData) {
-	    	writer.println(entry.getxTerm() + "," + entry.getyTerm() + "," + Integer.toString(entry.getBubbleSize()));
+	    	writer.println(entry.getxTerm().getName() + "," + entry.getyTerm().getName() + "," + Integer.toString(entry.getBubbleSize()));
 	    }
 	    writer.close();
 		return true;
