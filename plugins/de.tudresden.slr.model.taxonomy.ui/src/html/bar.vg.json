@@ -39,10 +39,17 @@
     ],
   
     "axes": [
-      { "orient": "bottom", "scale": "xscale" },
+      { 
+      	"orient": "bottom", 
+        "scale": "xscale", 
+        "labelAngle": -15,
+        "labelAlign": "right",
+        "labelBaseline": "top",
+        "labelOverlap": true
+      },
       { "orient": "left", "scale": "yscale" }
-    ],
-  
+    ],  
+
     "marks": [
       {
         "type": "rect",

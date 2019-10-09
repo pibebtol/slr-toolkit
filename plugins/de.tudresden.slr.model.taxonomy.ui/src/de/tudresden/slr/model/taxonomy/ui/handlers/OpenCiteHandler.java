@@ -61,7 +61,7 @@ public class OpenCiteHandler implements IHandler {
 		
 		// call website on writen file
 		if (dataWrittenSuccessfully && htmlWrittenSuccessfully) {
-		Program.launch(Activator.getUrl() + "bar.index.html");
+			Program.launch(Activator.getUrl() + "bar.index.html");
 		}
 
 		return null;

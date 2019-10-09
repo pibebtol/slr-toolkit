@@ -6,6 +6,7 @@
 </head>
 <body>
   <div id="view"></div>
+  <button onclick="exportSVG()">vega-export</button>
   <script type="text/javascript">
     var view;
     const file_bubble = './bubble.vg.json';
@@ -27,6 +28,14 @@
         svg_url = url;
       }).catch(function(error) { /* error handling */ });
       return view.runAsync();
+    }
+
+    function exportSVG() {
+      var link = document.createElement("a");
+      link.setAttribute('href', svg_url);
+      link.setAttribute('target', '_blank');
+      link.setAttribute('download', 'vega-export.svg');
+      link.dispatchEvent(new MouseEvent('click'));
     }
   </script>
 </body>

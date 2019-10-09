@@ -51,7 +51,7 @@
         "name": "size",
         "type": "linear",
         "domain": {"data": "source_0", "field": "amount"},
-        "range": [0, 5000],
+        "range": [0, 2000],
         "zero": true
       }
     ],
