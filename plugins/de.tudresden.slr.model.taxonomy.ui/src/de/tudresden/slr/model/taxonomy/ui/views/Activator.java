@@ -112,40 +112,18 @@ public class Activator extends TaxonomyActivator {
 	 * @throws IOException 
 	 */
 	private void writeVegaFiles() throws IOException {
-		writeVegaSource();
-		writeBarChartJson();
-		writeBubbleChartJson();
+		writeFileToWorkspace("vega.min.js");
+		writeFileToWorkspace("v5.json");
+		writeFileToWorkspace("knockout-3.5.1.js");
+		writeFileToWorkspace("bar.vg.json");
+		writeFileToWorkspace("bubble.vg.json");
 	}
-	
-	private void writeVegaSource() throws IOException {
-		InputStream in = getClass().getResourceAsStream("/html/vega.js");
+
+	private void writeFileToWorkspace(String file) throws IOException {
+		InputStream in = getClass().getResourceAsStream("/html/" + file);
     	BufferedReader br = new BufferedReader(new InputStreamReader(in));
 	    String st;
-	    File writeToFile = new File(Activator.WEB_APP_WORKSPACE + "/vega.js");
-	    PrintWriter writer = new PrintWriter(new FileWriter(writeToFile));
-	    while ((st = br.readLine()) != null) {
-    		writer.println(st);
-	    }
-	    writer.close(); 
-	}
-	
-	private void writeBarChartJson() throws IOException {
-		InputStream in = getClass().getResourceAsStream("/html/bar.vg.json");
-    	BufferedReader br = new BufferedReader(new InputStreamReader(in));
-	    String st;
-	    File writeToFile = new File(Activator.WEB_APP_WORKSPACE + "/bar.vg.json");
-	    PrintWriter writer = new PrintWriter(new FileWriter(writeToFile));
-	    while ((st = br.readLine()) != null) {
-    		writer.println(st);
-	    }
-	    writer.close(); 
-	}
-	
-	private void writeBubbleChartJson() throws IOException {
-		InputStream in = getClass().getResourceAsStream("/html/bubble.vg.json");
-    	BufferedReader br = new BufferedReader(new InputStreamReader(in));
-	    String st;
-	    File writeToFile = new File(Activator.WEB_APP_WORKSPACE + "/bubble.vg.json");
+	    File writeToFile = new File(Activator.WEB_APP_WORKSPACE + "/" + file);
 	    PrintWriter writer = new PrintWriter(new FileWriter(writeToFile));
 	    while ((st = br.readLine()) != null) {
     		writer.println(st);
