@@ -7,13 +7,13 @@
   "data": [
     {
       "name": "table",
+      "url": "bar.data.csv",
       "format": {
         "type": "csv",
         "parse": {
           "amount": "number"
         }
       },
-      "url": "bar.data.csv",
       "transform": [
         {
           "type": "collect",
