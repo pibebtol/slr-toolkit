@@ -1,0 +1,89 @@
+{
+    "$schema": "v5.json",
+    "autosize": "pad",
+    "padding": 5,
+    "width": 600,
+    "height": 400,
+    "style": "cell",
+    "data": [
+      {
+        "name": "source_0",
+        "url": "bubble.data.csv",
+        "format": {"type": "csv"}
+      }
+    ],
+    "marks": [
+      {
+        "name": "marks",
+        "type": "symbol",
+        "style": ["circle"],
+        "from": {"data": "source_0"},
+        "encode": {
+          "update": {
+            "x": {"scale": "x", "field": "category1"},
+            "y": {"scale": "y", "field": "category2"},
+            "size": {"scale": "size", "field": "amount"},
+            "shape": {"value": "circle"},
+            "stroke": {"value": "#1f77b4"},
+            "fill": {"value": "steelblue"},
+            "fillOpacity": {"value": 1},
+            "opacity": {"value": 1}
+          }
+        }
+      }
+    ],
+    "scales": [
+      {
+        "name": "x",
+        "type": "point",
+        "domain": {"data": "source_0", "field": "category1", "sort": true},
+        "range": [0, {"signal": "width"}],
+        "padding": 0.5
+      },
+      {
+        "name": "y",
+        "type": "point",
+        "domain": {"data": "source_0", "field": "category2", "sort": { "order":"descending"}},
+        "range": [0, {"signal": "height"}],
+        "padding": 0.5
+      },
+      {
+        "name": "size",
+        "type": "linear",
+        "domain": {"data": "source_0", "field": "amount"},
+        "range": [0, 2000],
+        "zero": true
+      }
+    ],
+    "axes": [
+      {
+        "scale": "x",
+        "orient": "bottom",
+        "grid": true,
+        "labelAngle": -15,
+        "labelAlign": "right",
+        "labelBaseline": "top",
+        "labelOverlap": true,
+        "zindex": 0
+      },
+      {"scale": "y", "orient": "left", "grid": true, "zindex": 0}
+    ],
+    "legends": [
+      {
+        "title": "Connections of categories",
+        "size": "size",
+        "gradientLength": {"signal": "clamp(height, 48, 200)"},
+        "encode": {
+          "symbols": {
+            "update": {
+              "fill": {"value": "steelblue"},
+              "stroke": {"value": "#1f77b4"},
+              "shape": {"value": "circle"},
+              "fillOpacity": {"value": 1},
+              "opacity": {"value": 1}
+            }
+          }
+        }
+      }
+    ]
+  }
