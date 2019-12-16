@@ -175,8 +175,8 @@
         <input data-bind="value: yaxesTitle"></input>
         <h3>Title Size:</h3>
         <input type="number" data-bind="value: yaxesFontSize"></input>
-        <h3>Amount of Axes Ticks </br>(niceified - multiples of 2,5,10):</h3>
-        <input type="number" data-bind="value: yaxesTicks" style="margin-bottom: 10px;"></input>
+        <h3>Axes Ticks</h3>
+        <select data-bind="options: yaxesTicks, value: yaxesTicksValue"></select>
       </fieldset>
     </div>
   </div>
@@ -188,6 +188,7 @@
     var svg_url;
     var spec;
     const categories = [];
+    const values = [];
 
     fetch(file_bar_data)
       .then(res => res.text())
@@ -196,7 +197,9 @@
           if (index == 0 || !value) {
             return;
           } else {
-            categories[categories.length] = value.split(',')[0];
+            var row = value.split(',');
+            categories[categories.length] = row[0];
+            values[values.length] = [row[0], Number(row[1])];
           }
         });
       })
@@ -250,7 +253,8 @@
       this.xaxesRotation = ko.observable(340);
       this.yaxesTitle = ko.observable();
       this.yaxesFontSize = ko.observable(12);
-      this.yaxesTicks = ko.observable(10);
+      this.yaxesTicks = ko.observableArray([1, 2, 5, 10, 20, 50, 100]);
+      this.yaxesTicksValue = ko.observable(10);
 
       ko.computed(function () {
         this.title();
@@ -273,7 +277,7 @@
         this.xaxesRotation();
         this.yaxesTitle();
         this.yaxesFontSize();
-        this.yaxesTicks();
+        this.yaxesTicksValue();
         if (spec) {
           spec.title.text = !!this.title() ? this.title() : ' ';
           spec.title.fontSize = parseInt(this.fontSize());
@@ -292,7 +296,8 @@
           spec.axes[0].labelAngle = parseInt(this.xaxesRotation());
           spec.axes[1].title = !!this.yaxesTitle() ? this.yaxesTitle() : ' ';
           spec.axes[1].titleFontSize = parseInt(this.yaxesFontSize());
-          spec.axes[1].tickCount = parseInt(this.yaxesTicks());
+          var tickSize = parseInt(this.yaxesTicksValue());
+          spec.axes[1].tickCount = getHighestValue(this.selectedSeriesValues()) / tickSize;
           if (this.legendBool()) {
             if (spec.legends.length == 0) {
               spec.legends.push({"fill": "color", "padding": 5});
@@ -334,13 +339,32 @@
           render();
         }
       }, this);
+
+      /**
+       * Takes the filtered values and finds the highest in all categories.
+       */
+      function getHighestValue(filtered) {
+        // filters the categories (selected series)
+        var filtered_array = values.filter(function(item) {
+          return !(filtered.includes(item[0]));
+        });
+
+        // finds the highest value
+        var highest = 0;
+        for (var i = 0; i < filtered_array.length; i++) {
+          if (filtered_array[i][1] > highest) {
+            highest = filtered_array[i][1];
+          }
+        }
+        return highest;
+      }
     };
 
     function exportSVG() {
       var link = document.createElement("a");
       link.setAttribute('href', svg_url);
       link.setAttribute('target', '_blank');
-      link.setAttribute('download', 'vega-export.svg');
+      link.setAttribute('download', 'vega-bar-export.svg');
       link.dispatchEvent(new MouseEvent('click'));
     }
 
@@ -368,6 +392,5 @@
       document.getElementById("mySidebar").style.width = "0px";
       document.getElementById("main").style.marginRight = "0px";
     }
-
   </script>
 </body>

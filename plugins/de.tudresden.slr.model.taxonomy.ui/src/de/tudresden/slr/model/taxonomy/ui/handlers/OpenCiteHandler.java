@@ -45,22 +45,17 @@ public class OpenCiteHandler implements IHandler {
 		Map<String, Integer> data = processSelectionData((IStructuredSelection) selection);
 
 		boolean dataWrittenSuccessfully = false;
-		boolean htmlWrittenSuccessfully = false;
 
 		try {
 			// overwrite csv with new data
 			dataWrittenSuccessfully = overwriteCSVFile(data);
-
-			// write html file with right header and title...
-			htmlWrittenSuccessfully = overwriteHTMLFile();
-
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		// call website on writen file
-		if (dataWrittenSuccessfully && htmlWrittenSuccessfully) {
+		if (dataWrittenSuccessfully) {
 			Program.launch(Activator.getUrl() + "bar.index.html");
 		}
 

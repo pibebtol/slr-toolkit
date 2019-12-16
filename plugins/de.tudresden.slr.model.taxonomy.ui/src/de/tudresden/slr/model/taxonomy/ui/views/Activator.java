@@ -116,7 +116,9 @@ public class Activator extends TaxonomyActivator {
 		writeFileToWorkspace("v5.json");
 		writeFileToWorkspace("knockout-3.5.1.js");
 		writeFileToWorkspace("bar.vg.json");
+		writeFileToWorkspace("bar.index.html");
 		writeFileToWorkspace("bubble.vg.json");
+		writeFileToWorkspace("bubble.index.html");
 	}
 
 	private void writeFileToWorkspace(String file) throws IOException {
