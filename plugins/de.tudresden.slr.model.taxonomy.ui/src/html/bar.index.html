@@ -112,7 +112,9 @@
 
   <div id="mySidebar" class="sidebar">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-    <button class="openbtn" style="float: left; margin: 13px 0px 0px 3px;" onclick="exportSVG()">Export</button>
+    <span style="height: 24px;padding: 8px 10px 6px 10px; color: white; font-size: 20px; background-color: #444;float:left;float: left; margin: 13px 0px 0px 3px;">Export:</span>
+    <button class="openbtn" style="float: left; margin: 13px 0px 0px 3px;" onclick="exportSVG()">SVG</button>
+    <button class="openbtn" style="float: left; margin: 13px 0px 0px 3px;" onclick="exportCSV()">CSV</button>
     <button class="collapsible" style="margin-top: 13px;">Title Settings</button>
     <div class="content">
       <h3>Chart Title:</h3>
@@ -364,7 +366,14 @@
       var link = document.createElement("a");
       link.setAttribute('href', svg_url);
       link.setAttribute('target', '_blank');
-      link.setAttribute('download', 'vega-bar-export.svg');
+      link.setAttribute('download', 'bar-chart-export.svg');
+      link.dispatchEvent(new MouseEvent('click'));
+    }
+    function exportCSV() {
+      var link = document.createElement("a");
+      link.setAttribute('href', file_bar_data);
+      link.setAttribute('target', '_blank');
+      link.setAttribute('download', 'bar-chart-export.csv');
       link.dispatchEvent(new MouseEvent('click'));
     }
 
