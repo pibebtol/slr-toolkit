@@ -103,6 +103,7 @@
 </head>
 
 <body>
+  <!-- main window, contains canvas view for the graph and the button for the settings sidebar -->
   <div id="main">
     <div id="view" style="float: left;"></div>
     <div>
@@ -110,6 +111,7 @@
     </div>
   </div>
 
+  <!-- Sidebar that contains the settings form for the graph -->
   <div id="mySidebar" class="sidebar">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     <span style="height: 24px;padding: 8px 10px 6px 10px; color: white; font-size: 20px; background-color: #444;float:left;float: left; margin: 13px 0px 0px 3px;">Export:</span>
@@ -171,7 +173,7 @@
         <div data-bind="text: xaxesRotation" style="float: left; margin-top: 5px;"></div>
         <input type="range" min="0" max="360" step="5" data-bind="value: xaxesRotation" style="margin-bottom: 10px;"></input>
       </fieldset>
-      <fieldset>
+      <fieldset style="margin-bottom: 3px;">
         <legend>Y-Axes</legend>
         <h3>Title:</h3>
         <input data-bind="value: yaxesTitle"></input>
