@@ -133,7 +133,7 @@
       <h3>Bubbles Size:</h3>
       <input type="number" data-bind="value: bubbleSize" style="margin-bottom: 10px;"></input>
     </div>
-    <button class="collapsible" style="display:none">Legend Settings</button>
+    <button class="collapsible">Legend Settings</button>
     <div class="content">
       <h3>Legend:</h3>
       <span style="float: left; margin-top: 2px;">Show Legend</span>
@@ -305,9 +305,35 @@
           spec.axes[1].title = !!this.yaxesTitle() ? this.yaxesTitle() : ' ';
           spec.axes[1].titleFontSize = parseInt(this.yaxesFontSize());
           spec.axes[1].labelAngle = parseInt(this.yaxesRotation());
-          /*if (this.legendBool()) {
+          if (this.legendBool()) {
             if (spec.legends.length == 0) {
-              spec.legends.push({"fill": "color", "padding": 5});
+              spec.legends.push({
+                "size": "size",
+                "padding": 5,
+                "gradientLength": {
+                  "signal": "clamp(height, 48, 200)"
+                },
+                "encode": { "symbols": {
+                  "update": {
+                    "fill": {
+                      "value": "steelblue"
+                    },
+                    "stroke": {
+                      "value": "#1f77b4"
+                    },
+                    "shape": {
+                      "value": "circle"
+                    },
+                    "fillOpacity": {
+                      "value": 1
+                    },
+                    "opacity": {
+                      "value": 1
+                    }
+                  }
+                }
+              }
+              });
             }
             spec.legends[0].labelFont = this.font();
             spec.legends[0].fillColor = this.legendBackgroundColor();
@@ -317,7 +343,7 @@
           } else {
             spec.legends.pop(0);
           }
-          if (this.barLabelBool()) {
+          /*if (this.barLabelBool()) {
             spec.marks.push({
               "type": "text",
               "from": {"data": "table"},

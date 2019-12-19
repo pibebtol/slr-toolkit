@@ -144,8 +144,13 @@
   ],
   "legends": [
     {
-      "title": "Connections of categories",
       "size": "size",
+      "orient": "right",
+      "direction": "vertical",
+      "fillColor": "#ffffff",
+      "strokeColor": "#ffffff",
+      "labelFont": "",
+      "padding": 5,
       "gradientLength": {
         "signal": "clamp(height, 48, 200)"
       },
