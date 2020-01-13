@@ -160,6 +160,7 @@
       </command>
       <command
             defaultHandler="de.tudresden.slr.model.taxonomy.ui.handlers.OpenCiteHandler"
+            description="Open a Bar Chart for one taxonomy term in the browser"
             id="de.tudresden.slr.model.taxonomy.ui.opencitebar"
             name="Open Cite Bar">
       </command>
@@ -246,14 +247,15 @@
                   icon="icons/bubble_chart.png"
                   label="Open Bubblechart"
                   style="push"
-                  tooltip="Open Bubbblechart">
+                  tooltip="Open Bubblechart in Browser for 2 chosen Taxonomy Terms">
             </command>
             <command
                   commandId="de.tudresden.slr.model.taxonomy.ui.opencitebar"
+                  id="de.tudresden.slr.model.taxonomy.ui.opencitebarbutton"
                   icon="icons/chart_bar.png"
                   label="Open Cite Barchart"
                   style="push"
-                  tooltip="Open Cite Barchart">
+                  tooltip="Open bar chart in Browser for the chosen Taxonomy Term">
             </command>
          </menuContribution>
          <menuContribution

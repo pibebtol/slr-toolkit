@@ -1,11 +1,8 @@
 package de.tudresden.slr.model.taxonomy.ui.handlers;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
@@ -14,9 +11,11 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.program.Program;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import de.tudresden.slr.model.taxonomy.Term;
@@ -47,7 +46,6 @@ public class OpenBubbleChartHandler implements IHandler {
 		List<BubbleDataContainer> data = processSelectionData((IStructuredSelection) selection);
 
 		boolean dataWrittenSuccessfully = false;
-
 		try {
 			// overwrite csv with new data
 			dataWrittenSuccessfully = overwriteCSVFile(data);
@@ -56,7 +54,7 @@ public class OpenBubbleChartHandler implements IHandler {
 			e.printStackTrace();
 		}
 
-		// call website on writen file
+		// open website in default browser
 		if (dataWrittenSuccessfully) {
 			Program.launch(Activator.getUrl() + "bubble.index.html");
 		}
@@ -79,25 +77,6 @@ public class OpenBubbleChartHandler implements IHandler {
 		return true;
 	}
 
-	/**
-	 * Takes the preconfigured html from within the bundle, adjusts it with the correct title and
-	 * stuff and writes it to the workspace folder.
-	 * 
-	 * @return true, if the file was written successfully
-	 */
-	private boolean overwriteHTMLFile() throws IOException {
-    	InputStream in = getClass().getResourceAsStream("/html/bubble.index.html");
-    	BufferedReader br = new BufferedReader(new InputStreamReader(in));
-	    String st;
-	    File writeToFile = new File(Activator.getWebAppWorkspace() + "/bubble.index.html");
-	    PrintWriter writer = new PrintWriter(new FileWriter(writeToFile));
-	    while ((st = br.readLine()) != null) {
-    		writer.println(st);
-	    }
-	    writer.close();
-		return true;
-	}
-
 	private List<BubbleDataContainer> processSelectionData(IStructuredSelection selection) {		
 		IStructuredSelection currentSelection = (IStructuredSelection) selection;
 		if (currentSelection.size() == 2) {
@@ -108,6 +87,10 @@ public class OpenBubbleChartHandler implements IHandler {
 			Term second = selectionIterator.next();
 			List<BubbleDataContainer> bubbleChartData = provider.calculateBubbleChartData(first, second);
 			return bubbleChartData;
+		} else {
+			String message = "Please choose exactly two taxonomies from the taxonomy list.\n\r"
+					+ "Do this by choosing one taxonomy and then hold CTRL and pick the second taxonomy.";
+			MessageDialog.openError(Display.getDefault().getActiveShell(), "Taxonomy Values Incorrect", message);
 		}
 		return null;
 	}

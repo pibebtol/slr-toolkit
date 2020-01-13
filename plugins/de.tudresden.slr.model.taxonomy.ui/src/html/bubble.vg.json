@@ -55,20 +55,15 @@
             "scale": "size",
             "field": "amount"
           },
-          "shape": {
-            "value": "circle"
+          "fill": {
+            "scale": "color",
+            "field": "amount"
           },
           "stroke": {
-            "value": "#1f77b4"
+            "value": "#222"
           },
-          "fill": {
-            "value": "steelblue"
-          },
-          "fillOpacity": {
-            "value": 1
-          },
-          "opacity": {
-            "value": 1
+          "shape": {
+            "value": "circle"
           }
         }
       }
@@ -118,9 +113,21 @@
       },
       "range": [
         0,
-        2000
+        3000
       ],
       "zero": true
+    },
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {
+        "data": "table",
+        "field": "amount"
+      },
+      "range": {
+        "scheme": ["#eee", "#eee"]
+      },
+      "reverse": true
     }
   ],
   "axes": [
@@ -158,10 +165,10 @@
         "symbols": {
           "update": {
             "fill": {
-              "value": "steelblue"
+              "value": "#eee"
             },
             "stroke": {
-              "value": "#1f77b4"
+              "value": "#222"
             },
             "shape": {
               "value": "circle"

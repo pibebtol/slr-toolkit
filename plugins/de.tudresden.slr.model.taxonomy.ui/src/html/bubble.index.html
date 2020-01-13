@@ -123,13 +123,8 @@
     <div class="content">
       <h3>Background Color:</h3>
       <input type="color" data-bind="value: backgroundColor"></input>
-      <div style="display:none">
-      <h3>Bar Labels:</h3>
-      <span style="float: left; margin-top: 2px;">Show Labels</span>
-      <input type="checkbox" data-bind="checked: barLabelBool"/>
       <h3>Bar Color:</h3>
       <select data-bind="options: barColor, value: barColorValue" style="margin-bottom: 10px;"></select>
-      </div>
       <h3>Bubbles Size:</h3>
       <input type="number" data-bind="value: bubbleSize" style="margin-bottom: 10px;"></input>
     </div>
@@ -240,9 +235,9 @@
       this.fontStyleValue = ko.observable('normal');
       this.backgroundColor = ko.observable('#ffffff');
       this.barLabelBool = ko.observable(false);
-      this.bubbleSize = ko.observable(2000);
-      this.barColor = ko.observableArray(['greys', 'blues', 'category10', 'category20']);
-      this.barColorValue = ko.observable('greys');
+      this.bubbleSize = ko.observable(3000);
+      this.barColor = ko.observableArray(['grey', 'blue', 'greys', 'blues', 'category10', 'category20']);
+      this.barColorValue = ko.observable('grey');
       this.legendBool = ko.observable(true);
       this.legendBackgroundColor = ko.observable('#ffffff');
       this.legendOutlineColor = ko.observable('#ffffff');
@@ -298,7 +293,23 @@
           spec.title.fontWeight = this.fontWeightValue();
           spec.background = this.backgroundColor();
           spec.scales[2].range[1] = this.bubbleSize();
-          //spec.scales[2].range.scheme = this.barColorValue();
+          const barColorValue = this.barColorValue();
+          if (barColorValue === "grey") {
+            spec.scales[3].range.scheme = ["#eee", "#eee"];
+            spec.marks[0].encode.update.stroke = {"value": "#222"};
+            spec.legends[0].encode.symbols.update.fill = {"value": "#eee"};
+            spec.legends[0].encode.symbols.update.stroke = {"value": "#222"};
+          } else if (barColorValue === "blue") {
+            spec.scales[3].range.scheme = ["steelblue", "steelblue"];
+            spec.marks[0].encode.update.stroke = {"value": "#1f77b4"};
+            spec.legends[0].encode.symbols.update.fill = {"value": "steelblue"};
+            spec.legends[0].encode.symbols.update.stroke = {"value": "#1f77b4"};
+          } else {
+            spec.scales[3].range.scheme = barColorValue;
+            spec.legends[0].encode.symbols.update.fill = {"value": "#eee"};
+            spec.legends[0].encode.symbols.update.stroke = {"value": "#222"};
+            delete spec.marks[0].encode.update.stroke;
+          }
           spec.axes[0].title = !!this.xaxesTitle() ? this.xaxesTitle() : ' ';
           spec.axes[0].titleFontSize = parseInt(this.xaxesFontSize());
           spec.axes[0].labelAngle = parseInt(this.xaxesRotation());
